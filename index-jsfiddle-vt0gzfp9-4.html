@@ -1,176 +1,321 @@
 <!DOCTYPE html>
-<html>
-
-<html>
+<html lang="ca">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vinyes Velles - Xatbot</title>
-
+  <title>New Horizons - Viatges Inoblidables</title>
   <style>
-    /* Estils del widget del xatbot */
+    /* --- ESTILS GENERALS --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f6;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #39b1a1;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* --- CONTENIDOR PRINCIPAL --- */
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* --- SECCIÓ TIPUS DE VIATGE --- */
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px 0;
+      color: #2a7e73;
+    }
+    .travel-modes {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 20px 0;
+      margin-bottom: 40px;
+    }
+    .mode-card {
+      display: table-cell;
+      background-color: white;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 30px;
+      vertical-align: middle;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .mode-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .mode-card.estiu h3 { color: #ff9f43; }
+    .mode-card.hivern h3 { color: #54a0ff; }
+
+    /* --- SECCIÓ INFORMACIÓ --- */
+    .info-grid {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 20px;
+      margin-bottom: 40px;
+    }
+    .info-row {
+      display: table-row;
+    }
+    .info-card {
+      display: table-cell;
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      border-left: 5px solid #39b1a1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .info-card h4 {
+      font-size: 1.3rem;
+      color: #39b1a1;
+      margin-bottom: 10px;
+    }
+    .info-card a {
+      display: inline-block;
+      margin-top: 15px;
+      color: white;
+      background-color: #39b1a1;
+      padding: 8px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .info-card a:hover {
+      background-color: #2a7e73;
+    }
+
+    /* --- BLOCS DETALLATS (ESTIU / HIVERN) --- */
+    .details-block {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .details-block h3 {
+      margin-bottom: 15px;
+      color: #2a7e73;
+    }
+
+    /* --- WIDGET DEL XATBOT --- */
     #chatbot-widget {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 300px;
-      max-height: 400px;
+      width: 320px;
+      height: 400px;
       background-color: white;
-      border: 1px solid #4b968c;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
+      border: 2px solid #39b1a1;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       overflow: hidden;
       font-family: Arial, sans-serif;
       z-index: 9999;
     }
-
-
     #chat-header {
-  background-color: #39b1a1;
-; /* Verd fosc Vinyes Velles */
+      background-color: #39b1a1;
       color: white;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
       font-weight: bold;
+      font-size: 15px;
     }
-
-
     #chat-body {
-      flex: 1;
-      padding: 10px;
+      height: 290px;
+      padding: 12px;
       overflow-y: auto;
       font-size: 14px;
+      background-color: #f9f9f9;
     }
-
-
     .message {
-      margin: 5px 0;
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      max-width: 85%;
+      word-wrap: break-word;
     }
-
-
-    .user {
+    .bot-message {
+      background-color: #e2f3f1;
+      color: #1e534c;
+      align-self: flex-start;
+    }
+    .user-message {
+      background-color: #39b1a1;
+      color: white;
+      margin-left: auto;
       text-align: right;
-      color: #4b968c;
     }
-
-
-    .bot {
-      text-align: left;
-      color: #333;
+    #chat-footer {
+      border-top: 1px solid #eee;
+      padding: 8px;
+      background-color: white;
     }
-
-
     #chat-input {
-      display: flex;
-      border-top: 1px solid #ccc;
+      width: 75%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
     }
-
-
-    #chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      font-size: 14px;
-    }
-
-
-    #chat-input button {
-      padding: 10px;
-      background-color: #58cebe;
-      color: rgb(116, 204, 185);
-      border: none;
-      cursor: pointer;
-    }
-
-
-    #chat-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #4b968c;
+    #send-btn {
+      width: 20%;
+      padding: 8px;
+      background-color: #39b1a1;
       color: white;
       border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
+      border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
-      z-index: 9998;
+    }
+    #send-btn:hover {
+      background-color: #2a7e73;
     }
   </style>
-
-  
 </head>
 <body>
-  <!-- Botó flotant per obrir el widget -->
-<button id="chat-toggle">💬</button>
 
-<!-- Widget del xatbot -->
-<div id="chatbot-widget" style="display:none;">
-  <div id="chat-header">Xatbot Turisme</div>
-  <div id="chat-body">
-    <div class="message bot">Hola! Sóc el xatbot especialtizat en turisme. En què et puc ajudar?</div>
+  <header>
+    <h1>NEW HORIZONS</h1>
+    <p>En aquesta web tenim viatges preparats per especialistes en turisme. Tenim diferents opcions de viatges, les més populars són els viatges a l'estiu i els viatges a l'hivern, de platja i de muntanya. Les teves vacances inoblidables!</p>
+  </header>
+
+  <div class="container">
+    
+    <h2 class="section-title">Fes click al tipus de viatge que t'agradaria fer!</h2>
+    <div class="travel-modes">
+      <div class="mode-card estiu">
+        <h3>ESTIU</h3>
+        <p>Platja, sol i calor</p>
+      </div>
+      <div class="mode-card hivern">
+        <h3>HIVERN</h3>
+        <p>Muntanya, neu i relax</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Fes click on t'interessi obtenir informació</h2>
+    <div class="info-grid">
+      <div class="info-row">
+        <div class="info-card">
+          <h4>Allotjaments</h4>
+          <p>Troba els millors hotels i habitacions per a la teva estada.</p>
+          <a href="https://www.booking.com" target="_blank">Veure Preus</a>
+        </div>
+        <div class="info-card">
+          <h4>Restaurants</h4>
+          <p>Descobreix la gastronomia local i els millors sabors de temporada.</p>
+          <a href="https://www.tripadvisor.es/Restaurants-g153339-Canada.html" target="_blank">Veure Restaurants</a>
+        </div>
+        <div class="info-card">
+          <h4>Activitats</h4>
+          <p>Aventura, natura i diversió pensades per a totes les edats.</p>
+          <a href="#" onclick="alert('Properament llistat d\'activitats disponible!'); return false;">Veure Activitats</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="details-block">
+      <h3>Viu l'estiu com et mereixes</h3>
+      <p>Descobreix un espai pensat per desconnectar, respirar i gaudir de cada moment. Els nostres allotjaments d'estiu són el refugi ideal per escapar de la rutina i deixar-te portar per la calma, la natura i la llum dels dies més llargs de l'any. Ja sigui en parella, amb amics o en família, trobaràs confort, tranquil·litat i aquell ambient especial que converteix unes vacances en records inesborrables.</p>
+    </div>
+
+    <div class="details-block">
+      <h3>Sabors que escalfen l'ànima a l'hivern</h3>
+      <p>Vine a gaudir d'un espai acollidor on la bona cuina i els sabors de temporada et faran sentir com a casa. Cada plat està preparat amb ingredients de qualitat i molta passió, pensat per oferir-te una experiència única i reconfortant. Passeja entre paisatges nevats, relaxa't amb una beguda calenta i deixa't portar per la màgia de l'hivern.</p>
+    </div>
+
   </div>
-  <div id="chat-input">
-    <input type="text" id="user-input" placeholder="Escriu una pregunta..." />
-    <button onclick="enviaMissatge()">📨</button>
+
+  <div id="chatbot-widget">
+    <div id="chat-header">Assistent New Horizons</div>
+    <div id="chat-body">
+      <div class="message bot-message">Hola! Som una web especialitzada en turisme per crear-te unes vacances inoblidables. En què et puc ajudar avui? Pots preguntar sobre estiu, hivern o allotjaments!</div>
+    </div>
+    <div id="chat-footer">
+      <input type="text" id="chat-input" placeholder="Escriu un missatge..." onkeydown="if(event.key === 'Enter') enviarMissatge()">
+      <button id="send-btn" onclick="enviarMissatge()">Enviar</button>
+    </div>
   </div>
-</div>
 
   <script>
-    // Mostra o amaga el widget del xat
-  document.getElementById('chat-toggle').addEventListener('click', function () {
-    const widget = document.getElementById('chatbot-widget');
-    widget.style.display = (widget.style.display === 'none') ? 'flex' : 'none';
-  });
+    function enviarMissatge() {
+      var inputElement = document.getElementById("chat-input");
+      var missatgeUsuari = inputElement.value.trim();
+      
+      if (missatgeUsuari === "") return;
+      
+      // Mostrar missatge de l'usuari
+      var chatBody = document.getElementById("chat-body");
+      var userDiv = document.createElement("div");
+      userDiv.className = "message user-message";
+      userDiv.textContent = missatgeUsuari;
+      chatBody.appendChild(userDiv);
+      
+      // Netejar l'input
+      inputElement.value = "";
+      chatBody.scrollTop = chatBody.scrollHeight;
+      
+      // Processar resposta del bot
+      setTimeout(function() {
+        var respostaBot = generarRespostaBot(missatgeUsuari.toLowerCase());
+        var botDiv = document.createElement("div");
+        botDiv.className = "message bot-message";
+        botDiv.textContent = respostaBot;
+        chatBody.appendChild(botDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 500);
+    }
 
+    function generarRespostaBot(missatge) {
+      if (missatge.includes("hola") || missatge.includes("bon dia") || missatge.includes("bona tarda")) {
+        return "Hola! Com et puc ajudar amb les teves vacances?";
+      }
+      if (missatge.includes("hivern") || missatge.includes("fred") || missatge.includes("muntanya")) {
+        return "Si t'agraden les vacances fredes a l'hivern, et recomanem anar al NORD. Per exemple: Islàndia, Suïssa o Finlàndia!";
+      }
+      if (missatge.includes("estiu") || missatge.includes("platja") || missatge.includes("calor")) {
+        return "Si t'agraden les vacances calentes a l'estiu, et recomanem llocs increïbles com Mèxic, Colòmbia o Veneçuela!";
+      }
+      if (missatge.includes("allotjaments") || missatge.includes("preus") || missatge.includes("hotels")) {
+        return "Pots consultar preus i hotels fent click als enllaços de la nostra web o escriure'ns directament a vacances.turi@gmail.com.";
+      }
+      if (missatge.includes("qui sou") || missatge.includes("informacio") || missatge.includes("informació")) {
+        return "Som New Horizons, una agència especialitzada en crear experiències i viatges a mida que no puguis oblidar mai!";
+      }
+      return "No estic segur d'entendre't. Prova de preguntar per 'estiu', 'hivern', 'allotjaments' o 'qui sou'.";
+    }
+  </script>
 
-  // Envia el missatge de l'usuari i genera resposta
-  function enviaMissatge() {
-    const input = document.getElementById('user-input');
-    const missatge = input.value.trim();
-    if (!missatge) return;
-
-
-    mostraMissatge(missatge, 'user');
-    input.value = '';
-
-
-    setTimeout(() => {
-      const resposta = generaResposta(missatge);
-      mostraMissatge(resposta, 'bot');
-    }, 500);
-  }
-
-
-  // Mostra missatge a l'interior del xat
-  function mostraMissatge(text, tipus) {
-    const div = document.createElement('div');
-    div.className = `message ${tipus}`;
-    div.textContent = text;
-    document.getElementById('chat-body').appendChild(div);
-    document.getElementById('chat-body').scrollTop = document.getElementById('chat-body').scrollHeight;
-  }
-
-
-  // Genera resposta segons paraules clau
-  function generaResposta(missatge) {
-    missatge = missatge.toLowerCase();
-
-
-    // Respostes predefinides relacionades amb el centre
-    if (missatge.includes("hola")) return "Hola! Sóc el TuriBot. Com et puc ajudar?";
-    if (missatge.includes("viatges")) return "T'agradarien vacances a l'hibern o a l'estiu??.";
-    if (missatge.includes("hibern") || missatge.includes("viatges")) return "Si t'agradan les vacances fredes a l'hibern et recomano anar a un lloc per el NORD com per exepmle: Islandia, Suissa, Finlandia.";
-    if (missatge.includes("estiu") || missatge.includes("viatges")) return "Si t'agraden les vacances calentes a l'estiu et recomano anar a America del SUD com per exeple: Mexico, Colombia, Venzuela.";
-    if (missatge.includes("allotjaments") || missatge.includes("vacances")) return "Si t'agradaria consultar els allotjaments i els preus et recomano visitar la nostre web,escriu-nos al correu vacances.turi@gmail.com (gmail invenat) o truca'ns al numero 34 000 00 00 00.";
-    if (missatge.includes("web")) return "La nostra web oficial és: file:///C:/Users/portal/AppData/Local/Temp/b8117496-32a3-4712-bdd2-abc7f1084db6_jsfiddle-c36me50h-1.zip.db6/index-jsfiddle-c36me50h-1.html";
-    if (missatge.includes("qui sou") || missatge.includes("informació")) return "Som una web especialitzada en el turisme, i crearte unas vacances que no puguis oblidar mai!!!";
-    if (missatge.includes("gràcies") || missatge.includes("merci")) return "De res! Si tens més dubtes, aquí estic per crear les teves vacances del somni.";
-    if (missatge.includes("adéu") || missatge.includes("adeu")) return "Fins aviat! 👋";
-
+</body>
+</html>
 
     // Per defecte
     return "Ho sento, no tinc informació sobre això. Pots consultar la web o contactar amb el nostre telèfon.";
