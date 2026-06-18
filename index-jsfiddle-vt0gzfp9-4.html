@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vinyes Velles - Xatbot</title>
+
+  <style>
+    /* Estils del widget del xatbot */
+    #chatbot-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      max-height: 400px;
+      background-color: white;
+      border: 1px solid #4b968c;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+    }
+
+
+    #chat-header {
+  background-color: #39b1a1;
+; /* Verd fosc Vinyes Velles */
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+
+    #chat-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+
+    .message {
+      margin: 5px 0;
+    }
+
+
+    .user {
+      text-align: right;
+      color: #4b968c;
+    }
+
+
+    .bot {
+      text-align: left;
+      color: #333;
+    }
+
+
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+
+    #chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      font-size: 14px;
+    }
+
+
+    #chat-input button {
+      padding: 10px;
+      background-color: #58cebe;
+      color: rgb(116, 204, 185);
+      border: none;
+      cursor: pointer;
+    }
+
+
+    #chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #4b968c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 9998;
+    }
+  </style>
+
+  
+</head>
+<body>
+  <!-- Botó flotant per obrir el widget -->
+<button id="chat-toggle">💬</button>
+
+<!-- Widget del xatbot -->
+<div id="chatbot-widget" style="display:none;">
+  <div id="chat-header">Xatbot Turisme</div>
+  <div id="chat-body">
+    <div class="message bot">Hola! Sóc el xatbot especialtizat en turisme. En què et puc ajudar?</div>
+  </div>
+  <div id="chat-input">
+    <input type="text" id="user-input" placeholder="Escriu una pregunta..." />
+    <button onclick="enviaMissatge()">📨</button>
+  </div>
+</div>
+
+  <script>
+    // Mostra o amaga el widget del xat
+  document.getElementById('chat-toggle').addEventListener('click', function () {
+    const widget = document.getElementById('chatbot-widget');
+    widget.style.display = (widget.style.display === 'none') ? 'flex' : 'none';
+  });
+
+
+  // Envia el missatge de l'usuari i genera resposta
+  function enviaMissatge() {
+    const input = document.getElementById('user-input');
+    const missatge = input.value.trim();
+    if (!missatge) return;
+
+
+    mostraMissatge(missatge, 'user');
+    input.value = '';
+
+
+    setTimeout(() => {
+      const resposta = generaResposta(missatge);
+      mostraMissatge(resposta, 'bot');
+    }, 500);
+  }
+
+
+  // Mostra missatge a l'interior del xat
+  function mostraMissatge(text, tipus) {
+    const div = document.createElement('div');
+    div.className = `message ${tipus}`;
+    div.textContent = text;
+    document.getElementById('chat-body').appendChild(div);
+    document.getElementById('chat-body').scrollTop = document.getElementById('chat-body').scrollHeight;
+  }
+
+
+  // Genera resposta segons paraules clau
+  function generaResposta(missatge) {
+    missatge = missatge.toLowerCase();
+
+
+    // Respostes predefinides relacionades amb el centre
+    if (missatge.includes("hola")) return "Hola! Sóc el TuriBot. Com et puc ajudar?";
+    if (missatge.includes("viatges")) return "T'agradarien vacances a l'hibern o a l'estiu??.";
+    if (missatge.includes("hibern") || missatge.includes("viatges")) return "Si t'agradan les vacances fredes a l'hibern et recomano anar a un lloc per el NORD com per exepmle: Islandia, Suissa, Finlandia.";
+    if (missatge.includes("estiu") || missatge.includes("viatges")) return "Si t'agraden les vacances calentes a l'estiu et recomano anar a America del SUD com per exeple: Mexico, Colombia, Venzuela.";
+    if (missatge.includes("allotjaments") || missatge.includes("vacances")) return "Si t'agradaria consultar els allotjaments i els preus et recomano visitar la nostre web,escriu-nos al correu vacances.turi@gmail.com (gmail invenat) o truca'ns al numero 34 000 00 00 00.";
+    if (missatge.includes("web")) return "La nostra web oficial és: file:///C:/Users/portal/AppData/Local/Temp/b8117496-32a3-4712-bdd2-abc7f1084db6_jsfiddle-c36me50h-1.zip.db6/index-jsfiddle-c36me50h-1.html";
+    if (missatge.includes("qui sou") || missatge.includes("informació")) return "Som una web especialitzada en el turisme, i crearte unas vacances que no puguis oblidar mai!!!";
+    if (missatge.includes("gràcies") || missatge.includes("merci")) return "De res! Si tens més dubtes, aquí estic per crear les teves vacances del somni.";
+    if (missatge.includes("adéu") || missatge.includes("adeu")) return "Fins aviat! 👋";
+
+
+    // Per defecte
+    return "Ho sento, no tinc informació sobre això. Pots consultar la web o contactar amb el nostre telèfon.";
+  }
+  </script>
+</body>
+</html>
