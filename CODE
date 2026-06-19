@@ -1,234 +1,479 @@
 <!DOCTYPE html>
-<html>
-
-<html>
+<html lang="ca">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SPA app</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW HORIZONS - Les teves vacances inoblidables</title>
+    <style>
+        /* Estils generals */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfaf6;
+            color: #333;
+            scroll-behavior: smooth;
+        }
 
-  <style>
-    /* style.css */
-body {
-  font-family:
-Georgia, 'Times New Roman', Times, serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
-}
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-header {
-  background-color: #5ab1a5;
-  color: beige;
-  text-align: center;
-  padding: 1em;
-}
-nav {
-  background-color: #4b968c;
-}
-nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-nav li {
-  margin: 0;
-}
-nav a {
-  text-decoration: none;
-  color: #fff;
-  padding: 1em;
-  display: block;
-  transition: background-color 0.3s ease;
-}
-nav a:hover {
-  background-color: #0f002c;
-}
-main {
-  flex: 1;
-  padding: 1em;
-}
-#content {
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow:
-0 0 10px rgba(0, 0, 0, 0.1);
-}
-#content h2 {
-  color: #2f8d46;
-}
-#content img {
-  width: 400px;
-  height: auto;
-  margin: 0 auto;
-  display: block;
-  border-radius: 10px;
-  box-shadow:
-2px 2px 5px rgba(0, 0, 0, 0.2);
-  border: 3px solid #2F8D46;
-}
-form {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  box-shadow:
-0 0 10px rgba(0, 0, 0, 0.1);
-}
-form label {
-  display: block;
-  margin-bottom: 8px;
-}
-form input,
-form textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-form button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition:
-background-color 0.3s ease;
-}
-form button:hover {
-  background-color: #45a049;
-}
+        header {
+            background-color: #39b1a1;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
 
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
 
-  </style>
+        header p {
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
 
-  
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Carrusel de fotos principal (Pàgina 1) */
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            height: 450px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* Fleches del document (Verdes grans) */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #4b968c;
+            font-size: 2.5rem;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            user-select: none;
+            font-weight: bold;
+        }
+
+        .arrow:hover {
+            background-color: #4b968c;
+            color: white;
+        }
+
+        .arrow-left { left: 20px; }
+        .arrow-right { right: 20px; }
+
+        /* Intro i Botons de Categoria */
+        .intro-text {
+            text-align: center;
+            font-size: 1.15rem;
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+
+        .season-selector {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .season-btn {
+            background-color: white;
+            border: 2px solid #39b1a1;
+            border-radius: 12px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .season-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(57, 177, 161, 0.2);
+        }
+
+        .season-btn img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .season-btn span {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #4b968c;
+            display: block;
+        }
+
+        /* Seccions de contingut (Estiu / Hivern) */
+        .season-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        .season-title {
+            font-size: 2rem;
+            color: #39b1a1;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background-color: #fafafa;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            margin-top: 0;
+            color: #4b968c;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .btn-prices {
+            display: inline-block;
+            background-color: #58cebe;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-prices:hover {
+            background-color: #39b1a1;
+        }
+
+        /* --- ESTILS DEL WIDGET DEL XATBOT --- */
+        #chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            background-color: white;
+            border: 1px solid #4b968c;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            z-index: 9999;
+        }
+
+        #chat-header {
+            background-color: #39b1a1;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #chat-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .message {
+            margin: 5px 0;
+            padding: 6px 10px;
+            border-radius: 8px;
+            max-width: 85%;
+        }
+
+        .user {
+            text-align: right;
+            color: white;
+            background-color: #4b968c;
+            margin-left: auto;
+        }
+
+        .bot {
+            text-align: left;
+            color: #333;
+            background-color: #f0f0f0;
+            margin-right: auto;
+        }
+
+        #chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        #chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #chat-input button {
+            padding: 10px;
+            background-color: #39b1a1;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        #chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4b968c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-  <link rel="stylesheet" href="style.css">
 
-  <div id="app">
     <header>
-      <h1>
-       NEW HORIZONS
-      </h1>
-      <h2>
-       Nous viatges per descobrir i a bon preu!!!!
-      </h2>
+        <h1>NEW HORIZONS</h1>
+        <p>Les teves vacances inoblidables!!!</p>
     </header>
-    <nav>
-      <ul>
-        <li>
-          <a href="#" onclick=
-          "changeContent('home')">
-            Inici
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick=
-          "changeContent('about')">
-            Sobre
-          </a>
-        </li>
-        <li>
-          <a href="#" onclick=
-          "changeContent('contact')">
-            Contacto
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <main>
-      <div id="content">
-        <img src=
-"https://www.vipealo.com/blog/wp-content/uploads/2022/02/AdobeStock_83358985-1.jpeg">
-        <h3>Les vacances del teu somni AQUI!</h3>
-        <p>
-          En aquest enllaç aniras a una altre WEB per consular els preus de les habitacions i els llocs on vols anar.
-        </p>
-        <p>
-          Visita la pàgina WEB per consultar els preus
-          <a href="https://www.tripadvisor.es/" target="_blank">
-            aquí
-          </a>.
-        </p>
-      </div>
-    </main>
-  </div>
-  <script src="script.js"></script>
 
-  <script>
-    function changeContent(page) {
-  var contentDiv = document.getElementById('content');
-  switch (page) {
-    case 'home':
-      contentDiv.innerHTML = `
-        <img src=
-"https://www.vipealo.com/blog/wp-content/uploads/2022/02/AdobeStock_83358985-1.jpeg">
-        <h2>
-          Benvingut a la pàgina principal!
-        </h2>
-        <p>
-          Aquesta és la pàgina principal.
-        </p>
-        <p>
-          Explora les diferent seccions fent servir
-          el menu.
-        </p>
-      `;
-      break;
-    case 'about':
-      contentDiv.innerHTML = `
-        <h2>Sobre </h2>
-        <p>
-          One life. One world. Explore it. Una vida  un món. Explora'l.
-        </p>
-        <p>
-          La nostra intenció és donar-te unes vacances que mai no puguis oblidar
-        </p>
-      `;
-      break;
-    case 'contact':
-      contentDiv.innerHTML =
-        `<h2>Contacte</h2>
-        <p>
-          Escriu-nos si tens dubtes !
-        </p>
-        <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"
-            placeholder="Your Name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email"
-            placeholder="Your Email" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message"
-              placeholder="Your Message"
-              rows="4" required>
-          </textarea>
-        <button type="submit">Send Message</button>
-        </form>`;
-      break;
+    <div class="container">
+        
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <img src="imagen1.jpg" alt="Imatge de portada 1">
+            </div>
+            <div class="carousel-slide">
+                <img src="imagen2.jpg" alt="Imatge de portada 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="imagen3.jpg" alt="Imatge de portada 3">
+            </div>
+            
+            <button class="arrow arrow-left" onclick="plusSlides(-1)">←</button>
+            <button class="arrow arrow-right" onclick="plusSlides(1)">→</button>
+        </div>
 
+        <div class="intro-text">
+            En aquesta web tenim viatges preparats per especialistes en turisme, tenim diferents opcions de viatges, les més populars són: viatges a l'estiu i viatges a l'hivern, de platja i de muntanya. Esperem t'agradin!!!
+            <br><br>
+            <strong>Fes click al tipus de viatge que t'agradaria fer!!</strong>
+        </div>
 
-    default:
-      contentDiv.innerHTML = '<h2>Page not found!</h2>';
-  }
-}
+        <div class="season-selector">
+            <div class="season-btn" onclick="showSeason('estiu')">
+                <img src="imagen4.jpg" alt="ESTIU">
+                <span>ESTIU</span>
+            </div>
+            <div class="season-btn" onclick="showSeason('hivern')">
+                <img src="imagen8.jpg" alt="HIVERN">
+                <span>HIVERN</span>
+            </div>
+        </div>
 
-  </script>
-</body>
-</html>
+        <div id="section-estiu" class="season-section">
+            <h2 class="season-title">Viu l'estiu com et mereixes</h2>
+            <p>Descobreix un espai pensat per desconnectar, respirar i gaudir de cada moment. Els nostres allotjaments d'estiu són el refugi ideal per escapar de la rutina i deixar-te portar per la calma, la natura i la llum dels dies més llargs de l'any. Ja sigui en parella, amb amics o en família, trobaràs confort, tranquil·litat i aquell ambient especial que converteix unes vacances en records inesborrables.</p>
+            
+            <p style="font-weight: bold; margin-top: 20px;">Fes click on t'interessi obtenir informació:</p>
+            
+            <div class="grid-options">
+                <div class="card">
+                    <img src="imagen5.jpg" alt="Allotjaments Estiu">
+                    <div class="card-content">
+                        <h3>Allotjaments</h3>
+                        <p>Troba el teu refugi ideal a prop de les millors platges del Carib.</p>
+                        <a href="https://www.tripadvisor.es/Hotels-147237-Caribbean-Hotels.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagen6.jpg" alt="Restaurants Estiu">
+                    <div class="card-content">
+                        <h3>Restaurants</h3>
+                        <p>Una experiència gastronòmica per gaudir amb sabors únics i productes de qualitat.</p>
+                        <a href="https://www.tripadvisor.es/Restaurants-g147237-Caribbean.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagen7.jpg" alt="Activitats Estiu">
+                    <div class="card-content">
+                        <h3>Activitats</h3>
+                        <p>Activitats per viure moments únics. Combina diversió, natura i aventura.</p>
+                        <a href="https://www.tripadvisor.es/Attractions-g147237-Activities-Caribbean.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-hivern" class="season-section">
+            <h2 class="season-title">Escapa't aquest hivern</h2>
+            <p>Descobreix un refugi pensat per desconnectar i gaudir de la calma dels dies freds. Els nostres allotjaments d'hivern ofereixen confort, calidesa i moments únics per compartir en parella, amb amics o en família. Passeja entre paisatges nevats, relaxa't amb una beguda calenta i deixa't portar per la màgia de l'hivern. Relaxa't. Connecta. Gaudeix.</p>
+            
+            <p style="font-weight: bold; margin-top: 20px;">Fes click on t'interessi obtenir informació:</p>
+            
+            <div class="grid-options">
+                <div class="card">
+                    <img src="imagen9.jpg" alt="Allotjaments Hivern">
+                    <div class="card-content">
+                        <h3>Allotjaments</h3>
+                        <p>Troba allotjaments acollidors envoltats de muntanyes i paisatges nevats.</p>
+                        <a href="https://www.tripadvisor.es/Hotels-g153339-Canada.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagen9.jpg" alt="Restaurants Hivern">
+                    <div class="card-content">
+                        <h3>Restaurants</h3>
+                        <p>Sabors que escalfen l'ànima. Vine a gaudir de la bona cuina i els sabors de temporada.</p>
+                        <a href="https://www.tripadvisor.es/Restaurants-g153339-Canada.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagen9.jpg" alt="Activitats Hivern">
+                    <div class="card-content">
+                        <h3>Activitats</h3>
+                        <p>Activitats per viure l'hivern. Esports de neu, natura i propostes tranquil·les.</p>
+                        <a href="https://www.tripadvisor.es/Attractions-g153339-Activities-Canada.html" target="_blank" class="btn-prices">Veure Preus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button id="chat-toggle">💬</button>
+
+    <div id="chatbot-widget" style="display:none;">
+        <div id="chat-header">Xatbot Turisme</div>
+        <div id="chat-body">
+            <div class="message bot">Hola! Sóc el xatbot especialitzat en turisme. En què et puc ajudar?</div>
+        </div>
+        <div id="chat-input">
+            <input type="text" id="user-input" placeholder="Escriu una pregunta..." onkeypress="checkEnter(event)"/>
+            <button onclick="enviaMissatge()">📨</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Codi del Carrusel d'Imatges ---
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let slides = document.getElementsByClassName("carousel-slide");
+            if (n >= slides.length) { slideIndex = 0 }
+            if (n < 0) { slideIndex = slides.length - 1 }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+        }
+
+        // --- Codi de les seccions ---
+        function showSeason(season) {
+            document.getElementById('section-estiu').style.display = 'none';
+            document.getElementById('section-hivern').style.display = 'none';
+            
+            const targetSection = document.getElementById('section-' + season);
+            targetSection.style.display = 'block';
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- Chatbot ---
+        document.getElementById('chat-toggle').addEventListener('click', function () {
+            const widget = document.getElementById('chatbot-widget');
+            widget.style.display = (widget.style.display === 'none') ? 'flex' : 'none';
+        });
+
+        function checkEnter(event) {
+            if (event.key === "Enter") { enviaMissatge(); }
+        }
+
+        function enviaMissatge() {
+            const input = document.getElementById('user-input');
+            const missatge = input.value.trim();
+            if (!miss
